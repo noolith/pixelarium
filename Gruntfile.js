@@ -8,6 +8,14 @@ module.exports = function(grunt){
 			}
 		},
 
+		coffee: {
+			build: {
+				files: {
+					'dist/js/pixelarium.min.js': 'src/pixelarium/pixelarium.coffee',
+				}
+			}
+		},
+
 		copy: {
 			build: {
 				files: [
@@ -17,7 +25,8 @@ module.exports = function(grunt){
 			libs: {
 				files: [
 					{src: ['bower_components/jquery/dist/jquery.min.js'], dest: 'dist/js/lib/jquery.min.js'},
-					{src: ['bower_components/paper/dist/paper-full.min.js'], dest: 'dist/js/lib/paper.min.js'}
+					{src: ['bower_components/paper/dist/paper-full.min.js'], dest: 'dist/js/lib/paper.min.js'},
+					{src: ['bower_components/mousetrap/mousetrap.min.js'], dest: 'dist/js/lib/mousetrap.min.js'},
 				]
 			}
 		},
@@ -32,6 +41,14 @@ module.exports = function(grunt){
 			html: {
 				files: 'src/index.html',
 				tasks: ['copy:build'],
+			},
+			coffee: {
+				files: 'src/**/*.coffee',
+				tasks: ['coffee:build'],
+			},
+			js: {
+				files: 'src/strip/**/*.js',
+				tasks: ['copy:build'],
 			}
 		}
 
@@ -42,6 +59,7 @@ module.exports = function(grunt){
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-contrib-copy');
 	grunt.loadNpmTasks('grunt-contrib-clean');
+	grunt.loadNpmTasks('grunt-contrib-coffee');
 
-	grunt.registerTask('default', ['clean', 'sass:build', 'copy:build', 'copy:libs']);
+	grunt.registerTask('default', ['clean', 'sass:build', 'copy:build', 'copy:libs', 'coffee:build']);
 }
